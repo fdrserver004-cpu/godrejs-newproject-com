@@ -1441,32 +1441,31 @@
 
    <script src="js/custom.js"></script>
    <script>
+document.querySelectorAll('.form1').forEach(form => {
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
 
-       document.querySelectorAll('.form1').forEach(form => {
-         form.addEventListener('submit', function (e) {
-            e.preventDefault();
+    const btn = form.querySelector('.form1-submit-btn');
+    btn.disabled = true;
+    btn.innerText = 'Submitting...';
 
-            const btn = form.querySelector('.form1-submit-btn');
-            btn.disabled = true;
-            btn.innerText = 'Submitting...';
+    const formData = new FormData(form);
 
-            const formData = new FormData(form);
+    fetch('send_mail.php', {
+      method: 'POST',
+      body: formData
+    })
+    .then(r => r.json())
+    .then(() => {
+      window.location.href = 'thank-you.html';
+    })
+    .catch(() => {
+      window.location.href = 'thank-you.html';
+    });
+  });
+});
 
-            fetch('send_mail.php', {
-               method: 'POST',
-               body: formData
-            })
-               .then(r => r.json())
-               .then(() => {
-                 
-                  window.location.href = 'thank-you.html';
-               })
-               .catch(() => {
-                 
-                  window.location.href = 'thank-you.html';
-               });
-         });
-      });
+
       function proprtyForm(titlehoem) {
          $('#prog550688').val(titlehoem);
          $('#enquireModalLabel').text(titlehoem);
